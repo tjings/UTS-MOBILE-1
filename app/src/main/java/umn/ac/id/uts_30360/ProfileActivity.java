@@ -29,6 +29,9 @@ public class ProfileActivity extends AppCompatActivity {
                     Intent back = new Intent(ProfileActivity.this, MainActivity.class);
                     back.putExtra("FROM_ACTIVITY", "profile");
                     startActivity(back);
+                }else if (previousActivity.equals("starting")) {
+                    Intent intent = new Intent(ProfileActivity.this, StartingPage.class);
+                    startActivity(intent);
                 }
             }
         });
