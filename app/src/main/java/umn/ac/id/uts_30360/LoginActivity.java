@@ -16,6 +16,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         SharedPrefManager sharedPrefManager;
@@ -24,15 +25,16 @@ public class LoginActivity extends AppCompatActivity {
         if (sharedPrefManager.getSPSudahLogin()){
             String toastMessage = "Already Logged In, Redirecting . . .";
             Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(LoginActivity.this, MainActivity.class)
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+            Intent hvLoggedIN = new Intent(LoginActivity.this, MainActivity.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            hvLoggedIN.putExtra("FROM_ACTIVITY", "login");
+            startActivity(hvLoggedIN);
             finish();
         }
 
         EditText usernameEditText = (EditText) findViewById(R.id.usernameField);
         EditText passwordEditText = (EditText) findViewById(R.id.passwordField);
         loginButton = findViewById(R.id.loginBtn);
-
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,8 +45,10 @@ public class LoginActivity extends AppCompatActivity {
                     sharedPrefManager.saveSPString(SharedPrefManager.SP_NAMA, "Joshua");
                     // Shared Pref ini berfungsi untuk menjadi trigger session login
                     sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_SUDAH_LOGIN, true);
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class)
-                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                    Intent logged = new Intent(LoginActivity.this, MainActivity.class)
+                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    logged.putExtra("FROM_ACTIVITY", "login");
+                    startActivity(logged);
                     finish();
                 }else {
                     String toastMessage = "Username or Password are incorrect";

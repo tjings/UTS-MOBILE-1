@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:background="@color/gray"
+    android:elevation="4dp"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    app:subtitleTextAppearance="@style/TitleTextColor"
+    app:title="Music List"
+    app:titleTextAppearance="@style/TitleTextColor"
+    app:titleTextColor="@color/nearlyWhite">
+
+</androidx.appcompat.widget.Toolbar>

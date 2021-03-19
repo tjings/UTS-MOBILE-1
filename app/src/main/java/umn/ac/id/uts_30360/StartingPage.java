@@ -29,6 +29,7 @@ public class StartingPage extends AppCompatActivity {
         toProfileBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 Intent toProfile = new Intent(StartingPage.this, ProfileActivity.class);
+                toProfile.putExtra("FROM_ACTIVITY", "starting");
                 startActivity(toProfile);
             }
         });

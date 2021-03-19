@@ -6,26 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/gradient_bg2">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_height="wrap_content"
-        android:background="@color/nearlyWhite"
-        app:tabIndicator="@drawable/tab_indicator"
-        app:tabIndicatorColor="@color/lightGray"
-        app:tabIndicatorFullWidth="false"
-        app:tabIndicatorGravity="center"
-        app:tabIndicatorHeight="40dp"
-        app:tabTextColor="@color/text" />
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </androidx.viewpager.widget.ViewPager>
+        android:layout_height="match_parent"
+        android:outlineAmbientShadowColor="@color/lightGray"/>
 </LinearLayout>

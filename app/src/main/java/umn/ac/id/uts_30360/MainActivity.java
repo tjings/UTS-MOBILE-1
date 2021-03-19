@@ -3,11 +3,11 @@ package umn.ac.id.uts_30360;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
@@ -21,46 +21,97 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.material.tabs.TabLayout;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button logoutBtn;
     public static final int REQUEST_CODE = 1;
+    RecyclerView recyclerView;
+    MusicAdapter musicAdapter;
     static ArrayList<MusicFiles> musicFiles;
+    SharedPrefManager sharedPrefManager;
+    int backButtonCount = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        permission();
+        sharedPrefManager = new SharedPrefManager(MainActivity.this);
+        Intent logged = getIntent();
+        if (sharedPrefManager.getSPSudahLogin()) {
+            permission();
 
-        SharedPrefManager sharedPrefManager;
-        sharedPrefManager = new SharedPrefManager(this);
-//        logoutBtn = findViewById(R.id.logoutBtn);
-
-        AlertDialog alertDialog = new AlertDialog.Builder(this)
-        //set icon
-        .setIcon(android.R.drawable.ic_dialog_alert)
-        //set title
-        .setTitle("SELAMAT DATANG")
-        //set message
-        .setMessage("Joshua Tjing 00000030360")
-        //set positive button
-        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                //set what would happen when positive button is clicked
-//                finish();
+            String previousActivity = logged.getStringExtra("FROM_ACTIVITY");
+            if (previousActivity.equals("login")) {
+                AlertDialog alertDialog = new AlertDialog.Builder(this)
+                        //set icon
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        //set title
+                        .setTitle("SELAMAT DATANG")
+                        //set message
+                        .setMessage("Joshua Tjing 00000030360")
+                        //set positive button
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //set what would happen when positive button is clicked
+                                //                finish();
+                            }
+                        })
+                        .show();
             }
-        })
-        .show();
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+        }else {
+            startActivity(new Intent (MainActivity.this, StartingPage.class));
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        if(backButtonCount >= 1)
+        {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+        else
+        {
+            Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
+            backButtonCount++;
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.toProfileMenu:
+                Intent toProfile = new Intent(MainActivity.this, ProfileActivity.class);
+                toProfile.putExtra("FROM_ACTIVITY", "songlist");
+                startActivity(toProfile);
+                return true;
+            case R.id.logoutMenu:
+                sharedPrefManager.saveSPBoolean(SharedPrefManager.SP_SUDAH_LOGIN, false);
+                startActivity(new Intent(MainActivity.this, StartingPage.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void permission() {
@@ -69,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             musicFiles = getAllAudio(this);
-            initViewPager();
+            musicRecycler();
         }
 
     }
@@ -80,54 +131,20 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE){
             if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 musicFiles = getAllAudio(this);
-                initViewPager();
+                musicRecycler();
             }else{
                 ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
             }
         }
     }
 
-    private void initViewPager() {
-        ViewPager viewPager = findViewById(R.id.viewPager);
-        TabLayout tabLayout = findViewById(R.id.tab_layout);
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragments(new SongsFragment(), "Songs");
-        viewPagerAdapter.addFragments(new ProfileFragment(), "Profile");
-        viewPager.setAdapter(viewPagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
-    }
-
-    public static class ViewPagerAdapter extends FragmentPagerAdapter {
-
-        private ArrayList<Fragment> fragments;
-        private ArrayList<String> titles;
-
-        public ViewPagerAdapter(@NonNull FragmentManager fm) {
-            super(fm);
-            this.fragments = new ArrayList<>();
-            this.titles = new ArrayList<>();
-        }
-
-        void addFragments(Fragment fragment, String title) {
-            fragments.add(fragment);
-            titles.add(title);
-        }
-
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            return fragments.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return fragments.size();
-        }
-
-        @Nullable
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return titles.get(position);
+    private void musicRecycler() {
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+//        recyclerView.setHasFixedSize(true);
+        if(! (musicFiles.size() < 1)){
+            musicAdapter = new MusicAdapter(this, musicFiles);
+            recyclerView.setAdapter(musicAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         }
     }
 
