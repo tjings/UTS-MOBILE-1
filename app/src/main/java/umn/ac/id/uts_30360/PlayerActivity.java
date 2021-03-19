@@ -22,7 +22,7 @@ import static umn.ac.id.uts_30360.MainActivity.musicFiles;
 public class PlayerActivity extends AppCompatActivity {
 
     TextView song_name, artist_name, duration_played, duration_total;
-    ImageView cover_art, nextBtn, prevBtn, backBtn, shuffle_btn, repeatBtn;
+    ImageView cover_art, nextBtn, prevBtn;
     FloatingActionButton playPauseBtn;
     SeekBar seekBar;
     int position = -1;
@@ -30,7 +30,7 @@ public class PlayerActivity extends AppCompatActivity {
     static Uri uri;
     static MediaPlayer mediaPlayer;
     private Handler handler = new Handler();
-    private Thread playThread, prevThread, nextThread;
+    private Thread play, prev, next;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,12 +76,11 @@ public class PlayerActivity extends AppCompatActivity {
         playThreadBtn();
         nextThreadBtn();
         prevThreadBtn();
-        
         super.onResume();
     }
 
     private void prevThreadBtn() {
-        prevThread = new Thread()
+        prev = new Thread()
         {
             @Override
             public void run(){
@@ -94,7 +93,7 @@ public class PlayerActivity extends AppCompatActivity {
                 });
             }
         };
-        prevThread.start();
+        prev.start();
     }
 
     private void prevBtnClicked() {
@@ -155,7 +154,7 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private void nextThreadBtn() {
-        nextThread = new Thread()
+        next = new Thread()
         {
             @Override
             public void run(){
@@ -168,11 +167,11 @@ public class PlayerActivity extends AppCompatActivity {
                 });
             }
         };
-        nextThread.start();
+        next.start();
     }
 
     private void playThreadBtn() {
-        playThread = new Thread()
+        play = new Thread()
         {
             @Override
             public void run(){
@@ -185,7 +184,7 @@ public class PlayerActivity extends AppCompatActivity {
                 });
             }
         };
-        playThread.start();
+        play.start();
     }
 
     private void nextBtnClicked() {
