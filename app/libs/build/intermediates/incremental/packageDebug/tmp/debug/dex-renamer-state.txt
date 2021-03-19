@@ -1,0 +1,4 @@
+#Sun Mar 14 17:29:18 ICT 2021
+base.0=D\:\\KULEAH\\SEMESTER 6\\Mobile Lab\\Project\\UTS_30360\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

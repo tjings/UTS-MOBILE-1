@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/fotoJosh"
+                android:layout_width="270dp"
+                android:layout_height="349dp"
+                android:layout_gravity="center"
+                android:src="@drawable/depeloper" />
+
+            <TextView
+                android:id="@+id/namaJosh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:fontFamily="@font/monda"
+                android:text="Nama  : Joshua Tjingson" />
+
+            <TextView
+                android:id="@+id/kelasJosh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/monda"
+                android:text="Kelas  : CL" />
+
+            <TextView
+                android:id="@+id/nimJosh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/monda"
+                android:text="Nim : 00000030360" />
+
+            <TextView
+                android:id="@+id/referensiJosh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/monda"
+                android:text="Referensi :" />
+
+            <TextView
+                android:id="@+id/yutubR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:fontFamily="@font/monda"
+                android:text="Youtube : https://www.youtube.com/playlist?list=PLwQLA73lSe1RfjMzbRLoIkcIJBu25FnVJ" />
+
+            <TextView
+                android:id="@+id/webR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/monda"
+                android:text="Website : https://medium.com/@prakharsrivastava_219/keep-the-user-logged-in-android-app-5fb6ce29ed65" />
+
+            <TextView
+                android:id="@+id/noFren"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/monda"
+                android:text="Teman : -" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
